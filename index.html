@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html data-ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+</head>
+<body ng-cloak>
+    <h2>Customers</h2>
+    Filter: <input type="text" ng-model="customerFilter">
+    <br><br>
+    <table>
+        <tr>
+            <th ng-click="sortBy='name';reverse=!reverse">Name</th>
+            <th ng-click="sortBy='city';reverse=!reverse">City</th>
+            <th ng-click="sortBy='orderTotal';reverse=!reverse">Order Total</th>
+            <th>Joined</th>
+        </tr>
+        <tr ng-repeat="cust in customers | filter:customerFilter | orderBy:sortBy:reverse">
+            <td>{{cust.name}}</td>
+            <td>{{cust.city}}</td>
+            <td>{{cust.orderTotal | currency}}</td>
+            <td>{{cust.joined | date}}</td>
+        </tr>
+    </table>
+    <br>
+    <span>Total customers: {{customers.length}}</span>
+<script src="angular.js"></script>
+    <script>
+        function CustomersController($scope) {
+            $scope.customers=[
+                {joined: '2000-12-02', name: 'Stefan', city: 'Beograd', orderTotal: 9.9994},
+                {joined: '2011-10-02', name: 'Sladjana', city: 'Smederevo', orderTotal: 8.4994},
+                {joined: '2007-11-02', name: 'Jovan', city: 'Smederevo', orderTotal: 7.7994}
+            ]
+            $scope.doSort = function(propName) {
+                $scope.sortBy = propName;
+                $scope.reverse = !$scope.reverse;
+            };
+        }
+    </script>
+</body>
+</html>
